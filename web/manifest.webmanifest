@@ -1,0 +1,16 @@
+{
+  "name": "Get a Point",
+  "short_name": "Get a Point",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#111125",
+  "theme_color": "#111125",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
