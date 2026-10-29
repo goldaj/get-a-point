@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111125">
+  <meta name="description" content="Get a Point : un point par jour, rien de plus.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <title>Get a Point · Un point par jour</title>
+  <style>
+    :root { font: 16px/1.5 system-ui, sans-serif; color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% 10%, #302b59, #111125 58%);
+      color: #f7f6ff; }
+    main { max-width: 710px; margin: auto; padding: 34px 20px 80px; }
+    h1 { font-size: clamp(2rem, 7vw, 3.3rem); margin: 4px 0; letter-spacing: -.045em; }
+    h2 { font-size: 1.12rem; margin: 0 0 12px; }
+    p { margin: 8px 0; }
+    .eyebrow { font-weight: 750; font-size: .78rem; color: #c8b7ff; text-transform: uppercase; letter-spacing: .18em; }
+    .muted { color: #b2b1d3; }
+    .card { background: #20223e; border: 1px solid #41436e; border-radius: 22px; padding: 23px; margin-top: 18px; }
+    .hero { text-align: center; padding: 40px 20px 28px; }
+    .points-ring { margin: auto; width: 205px; height: 205px; border-radius: 50%; display: grid;
+      place-items: center; border: 7px solid #9b79ff; box-shadow: 0 0 45px #a277ff35; }
+    .points-ring strong { font-size: clamp(2.9rem, 10vw, 4.3rem); display: block; line-height: 1.1; }
+    .points-ring span { color: #d1c4ff; font-size: .84rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+    .stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin: 23px 0; }
+    .stat { padding: 17px; border: 1px solid #45476c; background: #2a2b48; border-radius: 15px; text-align: left; }
+    .stat strong { display: block; font-size: 1.8rem; }
+    .stat span { color: #c2c0dc; font-size: .86rem; }
+    button, .import-label { font: inherit; border-radius: 14px; cursor: pointer; padding: 12px 17px;
+      background: #37395f; color: #fff; border: 1px solid #7879ad; display: inline-flex;
+      justify-content: center; align-items: center; }
+    button:hover:not(:disabled), .import-label:hover { background: #4a4c7c; }
+    button:focus-visible, .import-label:focus-within { outline: 3px solid #f0c96c; outline-offset: 3px; }
+    button:disabled { cursor: not-allowed; opacity: .65; }
+    .claim { background: #9163f3; border-color: #d4b6ff; font-size: 1.25rem; font-weight: 800;
+      min-height: 74px; width: 100%; }
+    .claim:hover:not(:disabled) { background: #a57cfc; }
+    #message { min-height: 2em; color: #d8d1fa; }
+    .progress-track { height: 11px; width: 100%; border-radius: 20px; background: #3b3c63;
+      margin: 12px 0 16px; overflow: hidden; }
+    .progress-fill { background: linear-gradient(90deg,#9273fc,#6cdbd0); height: 100%; width: 0; border-radius: inherit; }
+    .badge-list { list-style: none; display: flex; flex-wrap: wrap; gap: 9px; margin: 0; padding: 0; }
+    .badge { padding: 6px 11px; border: 1px solid #5e5b80; border-radius: 15px; font-size: .83rem; }
+    .badge.achieved { color: #a2efde; border-color: #4baca0; background: #1a434b; }
+    .badge.locked { opacity: .58; }
+    #days { margin: 15px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(7,1fr); gap: 7px; }
+    .day { aspect-ratio: 1 / 1; border-radius: 11px; background: #363850; color: #c5c5d9;
+      display: grid; place-items: center; text-align: center; font-size: .66rem; border: 1px solid #454763; }
+    .day.claimed { color: #0b2926; background: #72dbcc; border-color: #99f6e8; font-weight: 750; }
+    .day.today { outline: 2px solid #cfa8ff; outline-offset: 2px; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .actions > * { flex: 1; white-space: nowrap; }
+    .import-label input { display: none; }
+    footer { margin-top: 26px; font-size: .87rem; color: #b2b1d3; }
+    @media (max-width: 450px) { .day { font-size: .55rem; border-radius: 7px; } .card { padding: 16px; }
+      .actions > * { flex-basis: 100%; } }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+  </style>
+  <script defer src="./ledger.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+<main>
+  <header><p class="eyebrow">Get a Point · Édition web</p>
+    <h1>Un point par jour.</h1><p class="muted">Pas de raccourci. Pas de publicité. Juste une très lente conquête du chiffre suivant.</p>
+  </header>
+  <section class="card hero" aria-label="Mon score">
+    <div class="points-ring"><div><strong id="points">0</strong><span>points</span></div></div>
+    <div class="stats">
+      <div class="stat"><span>Série en cours</span><strong><span id="streak">0</span> j</strong></div>
+      <div class="stat"><span>Meilleure série</span><strong><span id="best-streak">0</span> j</strong></div>
+    </div>
+    <button type="button" id="claim" class="claim">+1 point</button>
+    <p id="message" role="status" aria-live="polite"></p>
+  </section>
+  <section class="card" aria-label="Objectifs et trophées">
+    <h2>Objectifs</h2><p class="muted" id="milestone">Premier point</p>
+    <div id="progress-track" class="progress-track" role="progressbar" aria-label="Progression vers le prochain objectif"
+      aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress" class="progress-fill"></div></div>
+    <ul id="badges" class="badge-list"></ul>
+  </section>
+  <section class="card" aria-label="Historique des 35 derniers jours">
+    <h2>35 derniers jours</h2><p class="muted">Chaque case turquoise correspond à un point réellement enregistré sur cet appareil.</p>
+    <ol id="days"></ol>
+  </section>
+  <section class="card" aria-label="Sauvegardes locales">
+    <h2>Mes données</h2><p class="muted">Toutes tes données restent dans ce navigateur. Sauvegarde-les pour les garder si tu changes d'appareil.</p>
+    <div class="actions">
+      <button type="button" id="export">Exporter</button>
+      <label class="import-label">Importer <input type="file" id="import" accept=".json,application/json" aria-label="Importer un fichier JSON de sauvegarde"></label>
+      <button type="button" id="share">Partager mon score</button>
+    </div>
+  </section>
+  <footer>Prototype 100 % local. Pas de compte, de classement en ligne ni de synchronisation Android. Le réglage de l'horloge de l'appareil ne peut pas être vérifié par un serveur.</footer>
+</main>
+</body>
+</html>
