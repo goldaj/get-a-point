@@ -27,3 +27,11 @@ Développement Android/Java, création de MVP, structuration de dépôt, sépara
 ## Sécurité
 
 Ne pas versionner de keystore, mots de passe de signature, identifiants, tokens ni fichiers `.env`.
+
+## Nouvelle édition web (29 octobre 2026)
+
+Une version **web indépendante** du MVP Android est désormais disponible dans `web/index.html` : un point par jour, séries, records, objectifs, historique 35 jours, export/import des données locales et partage de statistiques. Pour la prévisualiser, ouvrir `web/index.html` dans son navigateur. Pour activer le service worker hors ligne et fiabiliser le stockage : `python -m http.server 8000` puis `http://localhost:8000/web/`. Aucun compte, backend ni donnée personnelle transmise.
+
+- Guide : [`docs/WEB_EDITION.md`](docs/WEB_EDITION.md).
+- Tests : `node --test tests/*.test.cjs` ; CI GitHub Actions.
+- Les scores ne sont pas synchronisés avec l'application Android existante. Pas de classement en ligne ni de protection anti-triche serveur.

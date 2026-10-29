@@ -1,0 +1,24 @@
+name: Get a Point web tests
+on:
+  pull_request:
+  push:
+    branches: [main, "feat/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Business-rules regression suite
+        run: node --test tests/*.test.cjs
+      - name: JavaScript syntax
+        run: |
+          node --check web/ledger.js
+          node --check web/app.js
+          node --check web/sw.js

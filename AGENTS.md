@@ -16,3 +16,13 @@
 - Format : date ISO et fuseau si connus, rôle `Utilisateur` ou `Assistant`, mention `verbatim` seulement pour un texte exact. Sinon `résumé reconstruit, non verbatim`. Ne pas inventer d'heure ni de citation.
 - Si l'historique intégral n'est pas disponible, le signaler et demander un export réel plutôt que fabriquer une transcription. Préserver les exports existants sans les réécrire.
 - Exclure secrets, identifiants, données personnelles et contenus non destinés à la publication. Le niveau de visibilité de ce dépôt s'applique aussi aux documents ajoutés.
+
+## Web edition (2026-10-29)
+
+Le dépôt possède désormais une édition web **fonctionnelle** distincte du code Android : `web/index.html`, `web/ledger.js`, `web/app.js`, service worker et manifeste. Lire `docs/WEB_EDITION.md` avant intervention.
+
+- Contrat : une seule validation par date civile locale, calcul déterministe des séries et records, sauvegarde JSON exportable/importable en fusion non destructive.
+- Vérifier `node --test tests/*.test.cjs` ; CI `.github/workflows/web-tests.yml`.
+- Ne jamais ajouter de backend, de publicité ou de synchronisation des données personnelles sans choix produit explicite. Le jeu web ne remplace ni l'APK ni les SharedPreferences natives.
+- Priorités : tests visuels mobiles, migration optionnelle Android-vers-web, statistiques enrichies, conception séparée d'un éventuel classement sécurisé.
+- Préserver les sources Android et les documents historiques ; ne pas prétendre avoir testé l'APK depuis le navigateur.

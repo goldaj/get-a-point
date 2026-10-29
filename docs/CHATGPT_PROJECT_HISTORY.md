@@ -26,3 +26,11 @@
 **Utilisateur (résumé reconstruit, non verbatim, heure non attestée)** : demande de privilégier les corrections et les fonctionnalités inachevées plutôt que la seule structure.
 
 **Assistant (résumé reconstruit, non verbatim)** : un joueur qui gardait l'application ouverte après minuit ne pouvait plus réclamer le nouveau point du jour, car `claimedToday` était figé au lancement. Désormais, les interactions, le rendu et le bouton de réclamation actualisent le jour et la série. Branche `chatgpt/review-20261024`, aucune fusion directe. Le build Android est vérifié par CI; le passage de minuit reste à tester manuellement sur appareil.
+
+## Intervention 2026-10-29 — web offline MVP
+
+- Utilisateur (verbatim, heure exacte indisponible) : « Continue en boucle de chercher de nouveaux sujets ».
+- Assistant (résumé reconstruit, non verbatim) : après développement d'un nouveau workflow pour `novel-writing-toolkit`, sélection de `get-a-point` pour apporter une édition web jouable immédiatement sans Android Studio.
+- Livrables : `web/ledger.js` (règles jeu), `web/index.html` + `web/app.js` (interface, historique, sauvegarde), `web/sw.js`/manifest/icône (hors ligne), `tests/web-ledger.test.cjs`, GitHub Actions et `docs/WEB_EDITION.md`.
+- Première exécution GitHub Actions : succès à https://github.com/goldaj/get-a-point/actions/runs/40846431043 ; vérifier les exécutions ultérieures et le HEAD avant fusion.
+- Limitations non résolues : aucun test manuel de navigateur/téléphone ni build Android exécuté ; pas de synchronisation, classement ou validation anti-triche par un serveur. Les données de jeu Android existantes restent inchangées.
