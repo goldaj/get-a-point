@@ -95,8 +95,9 @@
     }
     function mergeBackup(raw) {
       const incoming = normalize(raw);
-      history = [...new Set([...history, ...incoming])].sort();
-      if (history.length > MAX_DAYS) throw new RangeError('Too many dates');
+      const merged = [...new Set([...history, ...incoming])].sort();
+      if (merged.length > MAX_DAYS) throw new RangeError('Too many dates');
+      history = merged;
       return history.length;
     }
     function exportBackup() {
