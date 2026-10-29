@@ -20,3 +20,11 @@
 - Les passages marqués `verbatim` sont des extraits exacts disponibles dans le contexte ; les résumés ne doivent **jamais** être cités comme du dialogue mot pour mot. Aucune réponse complète de l'assistant n'a été inventée.
 - Pour obtenir l'intégralité des questions, réponses et horodatages : intégrer un export authentique des conversations pertinentes ; conserver l'ordre et le rôle des messages, et expurger avant publication les éléments sensibles et hors projet.
 - En intervention future, ajouter en bas les nouveaux dialogues sourcés et les décisions vérifiées, sans effacer les entrées précédentes. Ce journal et `AGENTS.md` sont versionnés dans Git.
+
+## Intervention 2026-10-29 — web offline MVP
+
+- Utilisateur (verbatim, heure exacte indisponible) : « Continue en boucle de chercher de nouveaux sujets ».
+- Assistant (résumé reconstruit, non verbatim) : après développement d'un nouveau workflow pour `novel-writing-toolkit`, sélection de `get-a-point` pour apporter une édition web jouable immédiatement sans Android Studio.
+- Livrables : `web/ledger.js` (règles jeu), `web/index.html` + `web/app.js` (interface, historique, sauvegarde), `web/sw.js`/manifest/icône (hors ligne), `tests/web-ledger.test.cjs`, GitHub Actions et `docs/WEB_EDITION.md`.
+- Première exécution GitHub Actions : succès à https://github.com/goldaj/get-a-point/actions/runs/40846431043 ; vérifier les exécutions ultérieures et le HEAD avant fusion.
+- Limitations non résolues : aucun test manuel de navigateur/téléphone ni build Android exécuté ; pas de synchronisation, classement ou validation anti-triche par un serveur. Les données de jeu Android existantes restent inchangées.
