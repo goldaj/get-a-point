@@ -21,6 +21,12 @@
 - Pour obtenir l'intégralité des questions, réponses et horodatages : intégrer un export authentique des conversations pertinentes ; conserver l'ordre et le rôle des messages, et expurger avant publication les éléments sensibles et hors projet.
 - En intervention future, ajouter en bas les nouveaux dialogues sourcés et les décisions vérifiées, sans effacer les entrées précédentes. Ce journal et `AGENTS.md` sont versionnés dans Git.
 
+## 2026-10-24 — Correction fonctionnelle sur branche ChatGPT
+
+**Utilisateur (résumé reconstruit, non verbatim, heure non attestée)** : demande de privilégier les corrections et les fonctionnalités inachevées plutôt que la seule structure.
+
+**Assistant (résumé reconstruit, non verbatim)** : un joueur qui gardait l'application ouverte après minuit ne pouvait plus réclamer le nouveau point du jour, car `claimedToday` était figé au lancement. Désormais, les interactions, le rendu et le bouton de réclamation actualisent le jour et la série. Branche `chatgpt/review-20261024`, aucune fusion directe. Le build Android est vérifié par CI; le passage de minuit reste à tester manuellement sur appareil.
+
 ## Intervention 2026-10-29 — web offline MVP
 
 - Utilisateur (verbatim, heure exacte indisponible) : « Continue en boucle de chercher de nouveaux sujets ».

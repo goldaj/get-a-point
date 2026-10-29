@@ -113,6 +113,16 @@ public class MainActivity extends Activity {
             }
         }
 
+        // L'application peut rester ouverte pendant plusieurs jours.
+        // Actualiser l'éligibilité au clic sans nécessiter un redémarrage.
+        private void refreshCalendarDay() {
+            boolean nowClaimed = todayKey().equals(lastClaim);
+            if (nowClaimed == claimedToday) return;
+            claimedToday = nowClaimed;
+            pressed = false;
+            if (!claimedToday) normalizeStreak();
+        }
+
         private void saveState() {
             StringBuilder historyCsv = new StringBuilder();
             int count = 0;
@@ -130,6 +140,7 @@ public class MainActivity extends Activity {
         }
 
         private void claimPoint() {
+            refreshCalendarDay();
             if (claimedToday) return;
             String today = todayKey();
             if (lastClaim.equals(yesterdayKey())) streak += 1;
@@ -181,6 +192,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
+            refreshCalendarDay();
             int w = getWidth();
             int h = getHeight();
             if (w <= 0 || h <= 0) return;
@@ -378,6 +390,7 @@ public class MainActivity extends Activity {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
+            refreshCalendarDay();
             float x = event.getX();
             float y = event.getY();
             switch (event.getActionMasked()) {
