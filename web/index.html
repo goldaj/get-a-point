@@ -55,12 +55,20 @@
     .actions { display: flex; gap: 10px; flex-wrap: wrap; }
     .actions > * { flex: 1; white-space: nowrap; }
     .import-label input { display: none; }
+    #friends { list-style:none; margin:12px 0; padding:0; }
+    .friend-row {display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid #41436e;padding:10px 0}
+    .friend-row span {flex:1;overflow-wrap:anywhere}
+    .friend-row button {padding:6px 10px}
+    .friend-input {display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;align-items:center}
+    .friend-input input {flex:1;min-width:110px;border-radius:10px;padding:10px;background:#111329;color:#fff;border:1px solid #7879ad;font:inherit}
+    #friend-message {min-height:1.7em;color:#a2efde}
     footer { margin-top: 26px; font-size: .87rem; color: #b2b1d3; }
     @media (max-width: 450px) { .day { font-size: .55rem; border-radius: 7px; } .card { padding: 16px; }
       .actions > * { flex-basis: 100%; } }
     @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
   </style>
   <script defer src="./ledger.js"></script>
+  <script defer src="./friends.js"></script>
   <script defer src="./app.js"></script>
 </head>
 <body>
@@ -86,6 +94,24 @@
   <section class="card" aria-label="Historique des 35 derniers jours">
     <h2>35 derniers jours</h2><p class="muted">Chaque case turquoise correspond à un point réellement enregistré sur cet appareil.</p>
     <ol id="days"></ol>
+  </section>
+  <section class="card" aria-label="Classement entre amis">
+    <h2>Classement local entre amis</h2>
+    <p class="muted">Échangez vos fiches JSON pour comparer vos points, sans compte ni serveur. Une fiche ne contient pas l'historique de vos jours.</p>
+    <div class="friend-input"><label for="friend-name">Mon pseudo</label>
+      <input id="friend-name" maxlength="24" type="text" autocomplete="nickname">
+      <button type="button" id="friend-name-save">Enregistrer</button></div>
+    <ol id="friends"></ol>
+    <div class="actions">
+      <button type="button" id="friend-export">Exporter mon score</button>
+      <label class="import-label">Importer un ami<input id="friend-import" type="file" accept=".json,application/json" aria-label="Importer une fiche de score"></label>
+    </div>
+    <div class="actions" style="margin-top:10px">
+      <button type="button" id="friend-backup">Sauvegarder mes amis</button>
+      <label class="import-label">Restaurer mes amis<input id="friend-restore" type="file" accept=".json,application/json" aria-label="Restaurer le classement et mon identité"></label>
+    </div>
+    <p id="friend-message" role="status" aria-live="polite"></p>
+    <p class="muted">Classement amical non vérifié : un fichier peut être modifié. Les scores importés restent figés jusqu'à un nouvel échange de fiches.</p>
   </section>
   <section class="card" aria-label="Sauvegardes locales">
     <h2>Mes données</h2><p class="muted">Toutes tes données restent dans ce navigateur. Sauvegarde-les pour les garder si tu changes d'appareil.</p>

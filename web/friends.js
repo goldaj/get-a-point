@@ -20,7 +20,7 @@
   function name(value) {
     if (typeof value !== 'string') throw new TypeError('Pseudo invalide');
     const result = value.trim();
-    if (!result || result.length > 24 || /[\u0000-\u001f\u007f]/.test(result)) {
+    if (/[\u0000-\u001f\u007f]/.test(value) || !result || result.length > 24) {
       throw new TypeError('Pseudo : 1 à 24 caractères sans caractères de contrôle');
     }
     return result;
@@ -141,7 +141,7 @@
       const mine = card({
         format: CARD_FORMAT, version: 1, id: owner.id, name: owner.name,
         points: snapshot.points, streak: snapshot.streak, best_streak: snapshot.bestStreak,
-        as_of: snapshot.latest && snapshot.latest > today ? snapshot.latest : today,
+        as_of: snapshot.latest || today,
         latest: snapshot.latest
       });
       const rows = [mine, ...friends].map(entry => ({

@@ -70,9 +70,104 @@
       item.setAttribute('aria-label', item.title);
       $('days').appendChild(item);
     }
+    friendRender(today, current);
+  }
+
+
+  const friendKey = 'get-a-point-friends-v1';
+  let friends;
+  function friendNotify(text) { $('friend-message').textContent = text; }
+  function loadFriends() {
+    try { return GetAPointFriends.createBoard(localStorage.getItem(friendKey) || undefined); }
+    catch (error) {
+      friendNotify('Classement local indisponible ou illisible. Sauvegarde tes fiches avant de réinitialiser.');
+      return GetAPointFriends.createBoard();
+    }
+  }
+  function friendSave() {
+    try { localStorage.setItem(friendKey, friends.exportBoard()); return true; }
+    catch (error) { friendNotify('Stockage impossible. Exporte une sauvegarde de tes amis.'); return false; }
+  }
+  function friendDownload(content, filename) {
+    const url = URL.createObjectURL(new Blob([content], { type: 'application/json' }));
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+  function friendRender(day, snapshot) {
+    const list = $('friends'); list.replaceChildren();
+    for (const [index, entry] of friends.ranking(day, snapshot).entries()) {
+      const li = document.createElement('li'); li.className = 'friend-row';
+      const label = document.createElement('span');
+      label.textContent = (index + 1) + '. ' + entry.name + (entry.mine ? ' (moi)' : '') +
+        ' : ' + entry.points + ' pts · série ' + entry.streak + ' j · record ' +
+        entry.bestStreak + ' j' + (entry.mine ? '' : ' · fiche ' + entry.asOf);
+      li.appendChild(label);
+      if (!entry.mine) {
+        const remove = document.createElement('button'); remove.textContent = 'Retirer';
+        remove.setAttribute('aria-label', 'Retirer ' + entry.name);
+        remove.onclick = () => {
+          if (!window.confirm('Retirer ' + entry.name + ' du classement ?')) return;
+          friends.remove(entry.id);
+          const saved = friendSave(); render();
+          if (saved) friendNotify('Ami retiré.');
+        };
+        li.appendChild(remove);
+      }
+      list.appendChild(li);
+    }
+  }
+  function setupFriends() {
+    friends = loadFriends();
+    $('friend-name').value = friends.owner().name;
+    $('friend-name-save').onclick = () => {
+      try {
+        friends.setName($('friend-name').value);
+        const saved = friendSave(); render();
+        if (saved) friendNotify('Pseudo enregistré.');
+      } catch (error) { friendNotify(error.message); }
+    };
+    $('friend-export').onclick = () => {
+      try {
+        const today = GetAPoint.localDay();
+        friendDownload(friends.exportCard(ledger.snapshot(today), today), 'get-a-point-mon-score.json');
+        friendNotify('Fiche exportée. Transmets-la directement à un ami.');
+      } catch (error) { friendNotify(error.message); }
+    };
+    $('friend-import').onchange = async event => {
+      const file = event.target.files && event.target.files[0]; event.target.value = '';
+      if (!file) return;
+      if (file.size > 20000) { friendNotify('Fichier trop volumineux (20 Ko).'); return; }
+      try {
+        const result = friends.importCard(await file.text());
+        const saved = friendSave(); render();
+        if (saved) friendNotify({
+          added: 'Ami ajouté.', updated: 'Score mis à jour.',
+          outdated: 'Fiche plus ancienne ignorée.', unchanged: 'Fiche déjà enregistrée.'
+        }[result]);
+      } catch (error) { friendNotify('Import refusé : ' + error.message); }
+    };
+    $('friend-backup').onclick = () => {
+      friendDownload(friends.exportBoard(), 'get-a-point-mes-amis.json');
+      friendNotify('Classement sauvegardé. Cette sauvegarde ne contient pas tes jours obtenus.');
+    };
+    $('friend-restore').onchange = async event => {
+      const file = event.target.files && event.target.files[0]; event.target.value = '';
+      if (!file) return;
+      if (file.size > 100000) { friendNotify('Sauvegarde trop volumineuse (100 Ko).'); return; }
+      try {
+        const next = GetAPointFriends.createBoard(await file.text());
+        if (!window.confirm('Remplacer tes amis et ton identité de partage par cette sauvegarde ? Les points ne changent pas.')) return;
+        friends = next; $('friend-name').value = friends.owner().name;
+        const saved = friendSave(); render();
+        if (saved) friendNotify('Classement restauré.');
+      } catch (error) { friendNotify('Restauration refusée : ' + error.message); }
+    };
   }
 
   ledger = load();
+  setupFriends();
+  friendSave();
 
   $('claim').addEventListener('click', () => {
     const result = ledger.claim();

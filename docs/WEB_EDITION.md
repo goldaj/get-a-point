@@ -51,3 +51,11 @@ Les données sont locales et non chiffrées : protéger le fichier exporté, ne 
 7. Améliorer la gestion des mises à jour du service worker et ajouter des icônes PNG haute résolution pour compatibilité PWA plus large.
 
 Les premiers tests automatisés ont passé la CI sur GitHub Actions ; la validation manuelle sur navigateur/appareil reste à réaliser. Ne pas présenter un usage Android réel comme déjà testé.
+
+## Classement local entre amis — 2026-11-02
+
+Dans l'édition web, choisir un pseudo, récupérer des points, puis « Exporter mon score ». Envoyer le JSON à un ami qui utilise « Importer un ami » : le nouveau score apparaît dans un classement local trié par total puis série. Réimporter une fiche récente met à jour le joueur, sans créer de doublon. Fiche plus ancienne / score en baisse : refus de mise à jour. Pour changer d'appareil, exporter **deux** fichiers distincts : « Exporter » pour les dates personnelles et « Sauvegarder mes amis » pour l'identité locale et le classement. « Restaurer mes amis » remplace le carnet local après confirmation, **pas les points**.
+
+Le module pur `web/friends.js` vérifie version, identifiant, pseudo, total, record, série et cohérence des dates ; limite 40 amis. Le localStorage de carnet est séparé du ledger quotidien. Une fiche d'ami ne révèle aucun jour individuel, mais l'identifiant/pseudo et les statistiques partagées restent publics pour son destinataire. Aucune signature, identité vérifiée, serveur, classement mondial ni mise à jour automatique : les JSON peuvent être falsifiés et la date de l'appareil est non fiable. Les séries des amis expirent selon leur dernier jour déclaré ; les points restent ceux du dernier export reçu.
+
+Tests : `node --test tests/*.test.cjs`; CI GitHub Actions couvre règles et syntaxe, mais pas les interactions réelles sur navigateur/téléphone. Android natif inchangé.

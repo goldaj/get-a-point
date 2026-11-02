@@ -44,7 +44,7 @@ test('same card is idempotent, older snapshots and shrinking scores rejected', (
   assert.equal(b.importCard(c), 'added');
   assert.equal(b.importCard(JSON.stringify(c)), 'unchanged');
   assert.equal(b.importCard(score(alice, 'Alice', 6, 1, 4, '2026-11-01', '2026-11-02')), 'outdated');
-  assert.equal(b.importCard(score(alice, 'Alice', 9, 2, 4, '2026-11-01', '2026-10-31')), 'outdated');
+  assert.equal(b.importCard(score(alice, 'Alice', 9, 2, 4, '2026-10-31', '2026-10-31')), 'outdated');
   assert.equal(b.ranking('2026-11-01', me())[0].points, 8);
 });
 

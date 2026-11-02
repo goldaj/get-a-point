@@ -34,3 +34,9 @@
 - Livrables : `web/ledger.js` (règles jeu), `web/index.html` + `web/app.js` (interface, historique, sauvegarde), `web/sw.js`/manifest/icône (hors ligne), `tests/web-ledger.test.cjs`, GitHub Actions et `docs/WEB_EDITION.md`.
 - Première exécution GitHub Actions : succès à https://github.com/goldaj/get-a-point/actions/runs/40846431043 ; vérifier les exécutions ultérieures et le HEAD avant fusion.
 - Limitations non résolues : aucun test manuel de navigateur/téléphone ni build Android exécuté ; pas de synchronisation, classement ou validation anti-triche par un serveur. Les données de jeu Android existantes restent inchangées.
+
+## 2026-11-02 — Classement local entre amis
+
+**Utilisateur (verbatim, heure exacte inconnue)** : « OK. Une fois que ça sera fait tu me previens. On cherchera un nouveau repo, hors Get a point ; c'est un peu le projet le moins important de tout le repo donc on ne passera pas trop trop de temps dessus. Mais là tu peux, dis moi juste quand c'est terminé. »
+
+**Assistant (résumé, non verbatim)** : implémentation ciblée d'un carnet de scores entre amis sans serveur pour le jeu web, fichiers JSON exportés/importés et tests, sans modification Android. L'utilisateur souhaite arrêter ensuite le travail sur Get a Point et choisir un autre dépôt lors du prochain échange. L'usage réel sur navigateur n'a pas été testé manuellement lors de cette livraison.
