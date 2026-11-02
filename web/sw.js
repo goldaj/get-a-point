@@ -1,5 +1,5 @@
-const CACHE = 'get-a-point-web-v1';
-const ASSETS = ['./', './index.html', './ledger.js', './app.js', './manifest.webmanifest', './icon.svg'];
+const CACHE = 'get-a-point-web-v2';
+const ASSETS = ['./', './index.html', './ledger.js', './friends.js', './app.js', './manifest.webmanifest', './icon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });

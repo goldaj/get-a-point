@@ -35,3 +35,7 @@ Une version **web indépendante** du MVP Android est désormais disponible dans 
 - Guide : [`docs/WEB_EDITION.md`](docs/WEB_EDITION.md).
 - Tests : `node --test tests/*.test.cjs` ; CI GitHub Actions.
 - Les scores ne sont pas synchronisés avec l'application Android existante. Pas de classement en ligne ni de protection anti-triche serveur.
+
+## Classement local entre amis (2 novembre 2026)
+
+L'édition web permet de comparer les scores entre amis par échange de fiches JSON (total, séries, pseudo, date, ID local), sans serveur ni compte et sans transmettre l'historique quotidien. Possibilité d'importer, actualiser ou retirer jusqu'à 40 amis et de sauvegarder/restaurer séparément le carnet. Aucun contrôle anti-triche ni classement mondial. Voir [documentation web](docs/WEB_EDITION.md).

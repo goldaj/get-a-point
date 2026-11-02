@@ -20,5 +20,6 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check web/ledger.js
+          node --check web/friends.js
           node --check web/app.js
           node --check web/sw.js
